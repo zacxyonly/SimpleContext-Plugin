@@ -46,7 +46,7 @@ import json
 import logging
 from collections import defaultdict
 
-from simplecontext.plugins.base import BasePlugin
+from simplecontext.plugins.base import BasePlugin, AppCommandContext
 
 logger = logging.getLogger(__name__)
 
@@ -244,6 +244,19 @@ class VectorSearchPlugin(BasePlugin):
     description = "Semantic vector search berbasis embedding — komplemen keyword retrieval."
     depends_on  = []   # tidak bergantung plugin lain
 
+    # ── App Commands Declaration (v4) ─────────────────────
+    # Dibaca oleh SimpleContext-Bot (Telegram), Discord bot, CLI, atau host app apapun.
+    # Host app memanggil plugin.get_app_commands() atau loader.get_all_app_commands()
+    # untuk auto-register command — tidak perlu ubah kode host.
+    # Handler signature: async def(self, ctx: AppCommandContext) -> str
+    app_commands = {
+        "semantic": {
+            "description": "Cari memory berdasarkan makna (semantic similarity)",
+            "usage":       "/semantic <query>",
+            "handler":     "bot_cmd_semantic",
+        }
+    }
+
     # ── Lifecycle ─────────────────────────────────────────
 
     def setup(self):
@@ -273,6 +286,37 @@ class VectorSearchPlugin(BasePlugin):
             f"top_k={self._top_k} min_score={self._min_score} "
             f"tiers={self._tiers}"
         )
+
+    # ── App Command Handlers (v4) ─────────────────────────
+    # Dipanggil oleh host app (bot, CLI, web) via loader.fire_app_command().
+    # Signature wajib: async def(self, ctx: AppCommandContext) -> str
+
+    async def bot_cmd_semantic(self, ctx: AppCommandContext) -> str:
+        """Handler untuk /semantic — dipanggil via loader.fire_app_command()."""
+        user_id = ctx.user_id
+        query   = ctx.args_str
+
+        if not query:
+            return (
+"🔍 *Semantic Memory Search*\n\nUsage: `/semantic <query>`\n\nContoh:\n  `/semantic python error`\n  `/semantic liburan pantai`\n\n_Mencari memory berdasarkan makna, bukan kata persis._"
+            )
+
+        hits = self._search(user_id, query)
+        if not hits:
+            return (
+f"🔍 No results for: *{query}*\n\n_Vector index mungkin masih kosong. Mulai chatting dulu agar memory terisi._"
+            )
+
+        lines = [f"🔍 *Semantic search:* `{query}`\n"]
+        for i, hit in enumerate(hits, 1):
+            pct        = int(hit["score"] * 100)
+            tier_label = hit["tier"].capitalize() if hit["tier"] else "Memory"
+            bar        = "█" * (pct // 20) + "░" * (5 - pct // 20)
+            lines.append(
+                f"{i}. [{tier_label} | {bar} {pct}%]\n"
+                f"   _{hit['content'][:120]}_"
+            )
+        return "\n\n".join(lines)
 
     def teardown(self):
         # Persist embedder state saat shutdown
