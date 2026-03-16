@@ -122,8 +122,10 @@ Lihat [CONTRIBUTING.md](CONTRIBUTING.md) untuk detail lengkap.
 
 | Repositori | Deskripsi |
 |------------|-----------|
-| [SimpleContext](https://github.com/zacxyonly/SimpleContext) | Core engine — Universal AI Brain |
+| [SimpleContext](https://github.com/zacxyonly/SimpleContext) | Core engine — Universal AI Brain, zero dependencies |
 | [SimpleContext-Plugin](https://github.com/zacxyonly/SimpleContext-Plugin) | Plugin registry *(kamu di sini)* |
+| [SimpleContext-Bot](https://github.com/zacxyonly/SimpleContext-Bot) | AI Telegram Bot powered by SimpleContext — one-command setup, auto-downloads engine + agents |
+| [SimpleContext-Agents](https://github.com/zacxyonly/SimpleContext-Agents) | Ready-to-use agent definitions for SimpleContext |
 
 ---
 
