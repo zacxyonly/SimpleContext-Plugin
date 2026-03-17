@@ -25,11 +25,17 @@
 
 ### Official Plugins
 
-Plugin yang dimaintain oleh core team SimpleContext.
-
-| Plugin | Deskripsi | Versi | Status |
-|--------|-----------|-------|--------|
-| [`plugin-vector-search`](./official/plugin-vector-search/) | Semantic search berbasis embedding — komplemen keyword retrieval | `1.0.0` | 🟢 Active |
+<!-- PLUGINS_TABLE_START -->
+| Plugin | Deskripsi | Versi | Commands |
+|--------|-----------|-------|----------|
+| 📊 [`plugin-analytics`](./official/plugin-analytics/) | Usage analytics — statistik pesan, agent, dan aktivitas per user. | `1.0.0` | `/analytics`, `/analytics_global` |
+| ⏱ [`plugin-rate-limiter`](./official/plugin-rate-limiter/) | Batasi request per user per jam/hari, estimasi token dan biaya. | `1.0.0` | `/usage` |
+| 😊 [`plugin-sentiment`](./official/plugin-sentiment/) | Analisis sentimen user — adaptasi tone agent saat user frustrasi. | `1.0.0` | `/sentiment` |
+| 📝 [`plugin-summarizer`](./official/plugin-summarizer/) | Ringkasan otomatis percakapan ke episodic memory via LLM. | `1.0.0` | `/summary`, `/summary_list` |
+| 🌏 [`plugin-translate`](./official/plugin-translate/) | Penerjemah multi-bahasa — auto-detect bahasa user dan terjemahkan response. | `1.0.0` | `/translate` |
+| 🔍 [`plugin-vector-search`](./official/plugin-vector-search/) | Semantic vector search berbasis embedding — komplemen keyword retrieval. | `1.0.0` | `/semantic` |
+| 🌐 [`plugin-web-search`](./official/plugin-web-search/) | Pencarian internet real-time — DuckDuckGo (free), Bing, atau Google. | `1.0.0` | `/search` |
+<!-- PLUGINS_TABLE_END -->
 
 ### Community Plugins
 
