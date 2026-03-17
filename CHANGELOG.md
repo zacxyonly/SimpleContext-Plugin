@@ -6,29 +6,31 @@ Format mengikuti [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.3.0] — 2026-03-17
+## [1.2.0] — 2026-03-17
 
 ### Added
+- **`plugin-analytics` v1.0.0** — usage analytics per user/agent, `/analytics`, `/analytics_global`
 - **`plugin-summarizer` v1.0.0** — ringkasan otomatis percakapan ke episodic memory, `/summary`, `/summary_list`
 - **`plugin-web-search` v1.0.0** — pencarian internet real-time (DuckDuckGo free, Bing, Google), `/search`
 - **`plugin-translate` v1.0.0** — penerjemah multi-bahasa auto-detect 20+ bahasa, `/translate`
 - **`plugin-sentiment` v1.0.0** — analisis sentimen rule-based, adaptasi tone agent, `/sentiment`
 - **`plugin-rate-limiter` v1.0.0** — batasi request per jam/hari, estimasi token, `/usage`
 
-### Removed
-- `plugin-search` — digabung ke vector-search dan digantikan /search di web-search
-- `plugin-auto-tagger` — akan hadir kembali dengan versi yang lebih baik
-
 ---
 
-## [1.2.0] — 2026-03-17
+## [1.1.0] — 2026-03-17
 
-### Added
-- **`plugin-analytics` v1.0.0** — usage analytics per user/agent dengan `/analytics` dan `/analytics_global` commands
-- **`plugin-rate-limiter` v1.0.0** — rate limiting sliding window + token bucket dengan `/ratelimit` command
-- **`plugin-search` v1.0.0** — keyword search di memory dengan `/search`, `/search_facts`, `/forget` commands
-- **`plugin-auto-tagger` v1.0.0** — auto-tag pesan berdasarkan 9 kategori built-in + custom rules
-- **`plugin-summarizer` v1.0.0** — auto-compress working memory ke episodic summary via LLM
+### Changed
+- **`plugin-vector-search`**: migrate `BOT_COMMANDS` → `app_commands` (SimpleContext v4.3 contract)
+- **`plugin-vector-search`**: update handler signature ke `AppCommandContext`
+  - Sebelum: `async def bot_cmd_semantic(self, sc, update, ctx, args)`
+  - Sekarang: `async def bot_cmd_semantic(self, ctx: AppCommandContext)`
+- Handler tidak lagi Telegram-specific — bisa dipanggil dari platform apapun
+
+### Docs
+- Update `CONTRIBUTING.md` dengan konvensi `app_commands` dan handler signature baru
+
+> **Requires:** SimpleContext v4.3.0+
 
 ---
 
