@@ -1,0 +1,38 @@
+name: Update Plugin Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'official/**'      # trigger saat ada plugin baru/diupdate
+  workflow_dispatch:       # bisa dijalankan manual dari GitHub UI
+
+permissions:
+  contents: write          # perlu untuk commit README
+
+jobs:
+  update-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run update script
+        run: python scripts/update_readme.py
+
+      - name: Commit README if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet README.md || (
+            git add README.md &&
+            git commit -m "chore(readme): auto-update plugin registry table [skip ci]" &&
+            git push
+          )
